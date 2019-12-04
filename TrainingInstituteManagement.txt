@@ -1,0 +1,147 @@
+DB: TrainingInstituteManagment
+
+Students
+--------
+1. student_id - auto increment, primary key
+2. first name
+4. last name
+5. mob
+6. email id
+7. gender
+8. experince
+9. course
+10. availability
+11. mode
+12. date
+
+
+Course
+------
+1. course id -auto increment, primary key
+2. course name
+3. duration
+4. fee
+5. course desc
+6. credits
+7. date
+
+Trainer
+-------
+1. trainer id -auto increment, primary key
+2. trainer name
+3. experince
+4. skillset
+5. availability
+6. date
+
+
+Registraction
+-------------
+1. registration id - auto increment, primary key
+2. student_id -FK
+3. course id -FK
+4. trainer id - FK
+5. course start date
+6. course end date
+7. weekdays_weekend
+8. Batch time
+9. status
+10. course fee 
+11. date
+
+
+Controller
+----------
+1. StudentsController
+2. CourseController
+3. TrainerController
+4. RegistractionController
+
+Service
+------
+1. TrainingService
+
+DAO
+----
+1. StudentsDAO
+2. CourseDAO
+3. TrainerDAO
+4. RegistractionDAO
+
+Model
+-----
+1. Student
+2. Course
+3. Trainer
+4. Registraction
+
+com.tim.controller
+com.tim.model
+com.tim.service
+com.tim.dao
+com.tim.daoimpl
+
+
+DB Connection
+
+==========================================================================================
+
+create database TIM;
+
+use TIM;
+
+CREATE TABLE TIM.Student(
+student_id INTEGER NOT NULL AUTO_INCREMENT,
+first_name VARCHAR(50),
+last_name VARCHAR(50),
+mobile VARCHAR(10),
+email_id VARCHAR(30),
+gender CHAR(1),
+experince VARCHAR(15),
+course VARCHAR(30),
+availability VARCHAR(10),
+mode VARCHAR(10),
+date DATE,
+PRIMARY KEY(student_id));
+
+
+
+CREATE TABLE TIM.Course(
+course_id INTEGER NOT NULL AUTO_INCREMENT,
+course_name VARCHAR(30),
+duration VARCHAR(30),
+fee FLOAT,
+course_desc VARCHAR(50),
+credits VARCHAR(20),
+date DATE,
+PRIMARY KEY(course_id));
+
+
+
+CREATE TABLE TIM.Trainer(
+trainer_id INTEGER NOT NULL AUTO_INCREMENT,
+trainer_name VARCHAR(30),
+experience VARCHAR(15),
+skillset VARCHAR(50),
+availability VARCHAR(10),
+date DATE,
+PRIMARY KEY(trainer_id));
+
+
+
+CREATE TABLE TIM.Registration(
+registration_id INTEGER NOT NULL AUTO_INCREMENT PRIMARY KEY,
+student_id INTEGER,
+course_id INTEGER,
+trainer_id INTEGER,
+course_start_date DATE,
+course_end_date DATE,
+weekdays_weekend VARCHAR(10),
+Batch_time VARCHAR(10),
+status VARCHAR(10),
+course_fee FLOAT,
+date DATE,
+CONSTRAINT fk_student_id FOREIGN KEY (student_id) REFERENCES Student(student_id),
+CONSTRAINT fk_course_id FOREIGN KEY (course_id) REFERENCES Course(course_id),
+CONSTRAINT fk_trainer_id FOREIGN KEY (trainer_id) REFERENCES Trainer(trainer_id));
+

@@ -1,0 +1,440 @@
+POJO - Plain Old Java Object
+----- 
+- class is taken as a resource
+// pojo
+Public class Test {
+
+}
+
+// pojo
+Public class Test extends Demo {
+
+}
+
+// not pojo
+public class Test extends HttpServlet {
+
+}		
+
+POJI
+----
+- interface is taken as a resource
+public interface Test {
+
+}
+
+Featutes of Spring
+--------------------
+1. supports POJO and POJI
+2. light weight    
+3. Builtin middleware services
+4. Dependency Injection               
+5. Unit Testing
+6. Builtin plugins
+7. All kind of applications
+8. supports web framework
+9. ORM
+10. Easy to learn
+
+
+IOC Container
+---------------
+1. BeanFactory
+2. ApplicationContext
+
+BeanFactory
+-----------
+1.XmlBeanFactory
+	  XmlBeanFactory factory = new XmlBeanFactory (new ClassPathResource("Beans.xml")); 
+      HelloWorld obj = (HelloWorld) factory.getBean("helloWorld");    
+      obj.getMessage();  
+	  
+ApplicationContext
+------------------
+1. FileSystemXmlApplicationContext
+2. ClassPathXmlApplicationContext,
+3. XmlWebApplicationContext
+
+4. AnnotationConfigApplicationContext, 
+5. AnnotationConfigWebApplicationContext, 
+
+ApplicationContext context = new ClassPathXmlApplicationContext("setter_application-context.xml");
+		TestBean tb = (TestBean) context.getBean("tb");
+		tb.print();
+
+Dependency Injection
+--------------------
+setter Based
+ - container call the setter method  dynamically assign the values to the properties of the bean
+ 
+Constructor Based
+  - container uses the parameterized constructor to create a spring bean class
+  
+  
+Load multiple Spring bean configuration file
+---------------------------------------------
+ApplicationContext context = new ClassPathXmlApplicationContext(new String[] {"Spring-Common.xml", "Spring-Connection.xml", "Spring-ModuleA.xml"});
+
+<beans>
+		<import resource="Spring-Common.xml"/>
+        <import resource="Spring-Connection.xml"/>
+        <import resource="Spring-ModuleA.xml"/>
+
+</beans>
+
+
+Scope of the Bean
+-----------------
+1. Singleton - continer create only one object for a bean. Default scope is singleton
+2. Prototype - container create a multiple object for a bean
+3. Request  - Container will create the bean for each http request
+4. Session - Container will create the bean for each htttp session
+5. Global Session - mainly for portlet application , to maintain the same bean for a session in all the portlet application
+
+- request, session and global session are only for web applications
+
+
+Reading properties files in Spring
+----------------------------------
+
+<bean id="mailProperties"
+class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer"> 
+    <property name="location" value="classpath:mail.properties" /> 
+</bean>
+
+File Name - mail.properties
+------------------------
+smtp.host=smtp.gmail.com
+smtp.port=587
+smtp.user=tom@gmail.com
+smtp.pass=secret
+
+File Name -db.properites
+------------------------
+
+<bean id="mailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">
+    <property name="host" value="${smtp.host}" />
+    <property name="port" value="${smtp.port}" />
+    <property name="username" value="${smtp.user}" />
+    <property name="password" value="${smtp.pass}" />
+</bean>
+
+Location of the properties files
+------------------------------
+<property name="location" value="WEB-INF/mail.properties" />
+<property name="location" value="classpath:mail.properties" />
+<property name="location" value="file:///D:/Config/mail.properties" />
+
+Loading multiple properties files
+---------------------------------
+<bean id="appProperties"    class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+    <property name="locations">
+        <list>
+            <value>classpath:mail.properties</value>
+            <value>classpath:db.properties</value>
+        </list>
+    </property>
+</bean>
+
+
+@PropertySource("classpath:mail.properties")
+
+@Value("${smtp.host}")
+private String host;
+
+@Value("${smtp.port}")
+private int port;
+
+@PropertySources({
+	@PropertySource("classpath:config.properties"),
+	@PropertySource("classpath:db.properties")
+})
+
+//To resolve ${} in @Value
+	@Bean
+	public static PropertySourcesPlaceholderConfigurer propertyConfigInDev() {
+		return new PropertySourcesPlaceholderConfigurer();
+	}
+	
+Autowiring
+-------------
+1. Explicit wiring - will be configured explicitly using ref attribute in property or constructor-arg element
+2. Autowiring - bean will be configured explicitly but container will detect and inject the values of bean properties
+
+- Autowiring is not possible for simple string properites
+
+1. byName (autowire="byName") - inject the bean by name. internally its using setter methods 
+
+2. byType (autowire="byType") - inject the bean by type. internally its using setter methods 
+
+3. constructor (autowire="constructor") - inject the bean by parameterized constructor
+
+4. autodetect(autowire="autodetect")- perform either constructor or byType
+	- if the class containes 0 param constructor then it will perform byType otherwise constructor based
+
+5. Default - this is default behaviour of the bean. means no autowiring
+
+Annotations
+----------------
+@<annotation-name>(param=value, param=value)
+
+- XML file more flexibility for modification but poor performance - xml parsing
+- Annotaion poor flexibility for modification and good performance
+
+1. @Component(name)
+	- makes the java class as spring bean
+	- auto detectable for dependency injection
+2. @Service(name)
+	- similar to component annotation
+	- recommended to use service layer spring beans
+	- contaning business logic
+3. @Repository(name)
+	- similar to component annotation
+	- recommended to use DAO layer spring beans
+	- containg persistent logic
+	
+To perform dependency injection
+-------------------------------
+- No necessity of writing setter methods and constructors for dependency injection
+
+
+1. @Value 
+	- inject simple value, array value and list value
+2. @Resource 
+	- inject values to reference type bean properties
+3. @Autowired
+	- enable autowiring on bean properties
+	
+Enable annotation 
+------------------
+	<context:annotation-config/>
+	<context:component-scan base-package="packagename"/>
+	
+More Annotations of core module   
+-------------------------------
+1. @Inject
+	- to configure explicit dependency injection
+2. @PostConstruct
+	- to configure custom init method
+3. @PreDestroy
+	- to configure custome destroy method
+4. @Scope 
+	- to specify the bean scope
+5. @ComponentScan("com.spring")
+	- to specify the packages to recognize spring beans
+6.  @Required 
+	- applies to bean property setter methods
+	- This annotation simply indicates that the affected bean property must be populated at configuration time
+7. @Qualifier	
+	
+Java Based Configuration
+--------------------------
+ - @Configuration-annotated classes 
+ - @Bean-annotated methods.
+ 
+	@Configuration0
+	@ComponentScan(basePackages = "com.acme")
+	@Import(ConfigA.class)
+	public class AppConfig {
+	
+		@Bean(name = "Transfer")
+		@Description("Provides a basic example of a bean")
+		public TransferService transferService() {
+			return new TransferServiceImpl();
+		}
+		
+		 @Bean(initMethod = "init")
+		public Foo foo() {
+			return new Foo();
+		}
+
+		@Scope("prototype")
+		@Bean(destroyMethod = "cleanup")
+		public Bar bar() {
+			return new Bar();
+		}
+		
+	}
+	
+	// test main
+	public static void main(String[] args) {
+		AnnotationConfigApplicationContext ctx = new AnnotationConfigApplicationContext();
+		ctx.register(AppConfig.class, OtherConfig.class);
+		ctx.register(AdditionalConfig.class);
+		ctx.refresh();
+		MyService myService = ctx.getBean(MyService.class);
+		myService.doStuff();
+	}
+	
+	
+Spring DAO
+-----------
+- Get JDBC template clsss obj by supplying JDBC Datasource object
+- Send and execute queries in DB s/w
+- Gather results and process results
+
+
+- To Create a JdbcTemplate class obj DataSorce object is dependent object
+- DataSource is important property on JdbcTemplate class
+
+Important methods of JDBC template class
+----------------------------------------
+1. To execute non selet SQL queries
+	- update(String sql)
+2. To execute select sql queries
+	- queryForInt(String sql)
+	- queryForLong(String sql)
+	- queryForMap(String sql)
+	- queryForList(String sql)
+	- queryForObject(String sql)
+	- query(String sql)
+3. To perform batch processing
+	- batchUpdate(String[] queries)
+	
+	
+Spring Transaction Management
+-----------------------------
+1. Declarative transaction management - Use annotations or XML based configuration to manage the transactions.
+2. Programmatic transaction management - Have to manage the transaction with the help of programming
+	1. Using the TransactionTemplate	
+		<!-- Initialization for data source -->   
+		<bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">    
+		<property name="driverClassName" value="com.mysql.jdbc.Driver"/>      
+		<property name="url" value="jdbc:mysql://localhost:3306/TEST"/>      
+		<property name="username" value="root"/>      
+		<property name="password" value="password"/>   
+		</bean>
+
+		<!-- Initialization for TransactionManager -->   
+		<bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">    
+		<property name="dataSource"  ref="dataSource" />  
+		</bean>
+		<!-- Definition for ServiceImpl bean -->   
+		<bean id="serviceImpl" class="com.service.ServiceImpl">    
+		<constructor-arg ref="transactionManager"/>   
+		</bean>
+		
+		public class ServiceImpl implements Service
+		{    	    
+		  private final TransactionTemplate transactionTemplate;
+		  // use constructor-injection to supply the PlatformTransactionManager    
+		  public ServiceImpl(PlatformTransactionManager transactionManager)
+		  {     
+		this.transactionTemplate = new TransactionTemplate(transactionManager);   
+		  }
+		  // the transaction settings can be set here explicitly if so desired hence better control
+		  //This can also be done in xml file                  
+		  this.transactionTemplate.setIsolationLevel(TransactionDefinition.ISOLATION_READ_UNCOMMITTED);                   
+		  this.transactionTemplate.setTimeout(30); // 30 seconds       
+		  // and so forth...
+		  public Object someServiceMethod()
+		  {        
+			return transactionTemplate.execute(new TransactionCallback() 
+			{
+			 // the code in this method executes in a transactional context           
+			 public Object doInTransaction(TransactionStatus status)
+			 {                
+			 updateOperation1();     
+				return resultOfUpdateOperation2();    
+			 }
+		   });   
+		}}
+	
+	2. Using a PlatformTransactionManager
+	
+	XML Based
+	------------
+	<bean id="txManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager"/>
+	
+	
+
+	Annotation Based
+	----------------
+	
+	
+	@Configuration
+	@EnableTransactionManagement
+	public class AppConfig
+	{
+	 ...
+	}
+	
+	Add the @Transactional(readOnly=true) annotation to the Class
+	
+	
+
+Spring AOP
+----------
+- One of the key components of Spring is the Aspect-Oriented Programming (AOP) framework. 
+- Its a methodology to apply middleware services on spring applications
+- Middleware services are additional services that are applied on the applications
+- Example
+	- Transaction management
+	- Security Services
+	- Logging Services
+	- JDBC Connection pooling
+- Allows to link middleware services through xml files or annotations
+- Spring AOP Terminologies
+	- aspect
+	- advice
+	- join point
+	- pointcut
+	- advisor
+	- wiring
+	- weaving
+	- Target Bean/Target Object
+	- proxy Bean/ Proxy object
+	
+	1. Aspect
+		- its a specification contaning rules and guidelines to implement the middleware services
+	2. Advice
+		- Real middleware servies, which is the implementation of aspect
+		Types of advices
+			- Before Advice
+			- After Advice
+			- After returning advice
+			- After throwing advice
+			- Around advice
+	3. Joint Point
+		- Possible positions in our business method where advice can be applied
+	4. Pointcut
+		- XML or annotation based entry that links advices with joinpoints
+	5. Advisor
+		- Advice and pointcut together is called advisor
+	6.Wiring
+		- Configuring bean properties for dependency injection is called wiring
+	7. Weaving
+		- Applying middleware services on  spring bean class through Aspect oriented programming is called weaving
+	8. Target Bean/Target Object
+		- Spring bean class on which we are planning to apply middleware service is called target bean
+	9. proxy Bean/ Proxy object
+		- Spring bean class on which  middleware services are already applied is called proxy bean
+		
+		
+Spring Boot Annotaions
+-----------------------
+@EnableAutoConfiguration
+
+@SpringBootApplication
+	@Configuration
+	@EnableAutoConfiguration
+	@ComponentScan
+	
+	
+@RestController
+	@Controller
+	@ResponseBody
+
+@RequestMapping
+
+@PathVariable   http://localhost:8080/emp/employees/10
+@RequestParam   http://localhost:8080/emp/employees?id=10&name=Regu
+@RequestAttribute
+@RequestBody
+
+http
+
+Get
+Post
+put
+Delete

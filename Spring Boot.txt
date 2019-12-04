@@ -1,0 +1,28 @@
+Spring Boot Annotaions
+-----------------------
+@EnableAutoConfiguration
+
+@SpringBootApplication
+	@Configuration
+	@EnableAutoConfiguration
+	@ComponentScan
+	
+	
+@RestController
+	@Controller
+	@ResponseBody
+
+@RequestMapping
+
+@PathVariable   http://localhost:8080/emp/employees/10
+@RequestParam   http://localhost:8080/emp/employees?id=10&name=Regu
+@RequestBody
+
+http
+
+Get
+Post
+put
+Delete
+
+
