@@ -1,0 +1,38 @@
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
+
+public class ConnectToOracle {
+
+    public static Connection connectMethod() {
+        Connection conn1 = null;
+        try {
+            String url1 = "jdbc:oracle:thin:@localhost:1521:xe";
+            String user = "SYSTEM";
+            String password = "Password";
+            conn1 = DriverManager.getConnection(url1, user, password);
+            if (conn1 != null) {
+                System.out.println("Connected to the database system");
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return conn1;
+    }
+}
+
+
+Dependency
+----------
+ <dependency>
+            <groupId>com.oracle</groupId>
+            <artifactId>ojdbc8</artifactId>
+            <version>1.0</version>
+            <scope>system</scope>
+            <systemPath>C:/Users/shinu/Downloads/ojdbc6.jar</systemPath>
+        </dependency>
+		
+DB_URL=jdbc:oracle:thin:@localhost:1521:xe
+DB_USERNAME=SYSTEM
+DB_PASSWORD=Password		
