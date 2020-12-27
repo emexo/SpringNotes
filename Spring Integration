@@ -1,0 +1,34 @@
+ It enables lightweight messaging within Spring-based applications and supports integration with external systems through declarative adapters. 
+ 
+ 
+ 1. Adapter - Connect the channel to some other(external) systems
+ 
+	1. Inbound Adapter- Takes msgs from Queue/topic and get into a channel
+	
+	2. OutBound Adapter - Takes the msgs from channel and delivers into message queue/topic
+	
+	1. File adapters
+	2. JMS Adapter
+	3. JDBC Adapter
+	4. FTP & Secured Adapter
+	5. more 
+ 
+ 2. Filter - Remove some msgs from channel based on the header and content
+ 
+ 3. Transformer - Convert a msg header or content
+ 
+ 4. Enricher - Add content to the msg header or payload
+ 
+ 5. service Activator- Invoke the service opertion based on the arrival of the message
+ 
+ 6. Spliter- split the msg into mulpile msgs
+ 
+ 7. Aggregator - Combine multiple msgs into single msg
+ 
+ 
+ 
+ Channels:
+ 
+ 1. Pollable channel
+ 
+ 2. Subscriable  channel
