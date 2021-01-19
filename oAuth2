@@ -1,0 +1,12 @@
+Resource Owner – The user of the application.
+
+Client – the application (user is using) which require access to user data on the resource server.
+
+Resource Server – store user’s data and http services which can return user data to authenticated clients.
+
+Authorization Server – responsible for authenticating user’s identity and gives an authorization token. This token is accepted by resource server and validate your identity.
+
+
+An access token is a string representing an authorization issued to the client.
+
+Refresh token is issued (along with access token) to the client by the authorization server and is used to obtain a new access token when the current access token becomes invalid or expires,
