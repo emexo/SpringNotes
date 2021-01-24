@@ -1,6 +1,7 @@
  It enables lightweight messaging within Spring-based applications and supports integration with external systems through declarative adapters. 
  
- 
+ Different Endpoints:
+ --------------------
  1. Adapter - Connect the channel to some other(external) systems
  
 	1. Inbound Adapter- Takes msgs from Queue/topic and get into a channel
@@ -14,6 +15,8 @@
 	5. more 
  
  2. Filter - Remove some msgs from channel based on the header and content
+	- String Payload Filter
+	- Custom filer
  
  3. Transformer - Convert a msg header or content
  
@@ -30,5 +33,44 @@
  Channels:
  
  1. Pollable channel
+  - Consumer actively poll to receieve the messages
+  - Only one receiver/consumer of the channel
+
  
  2. Subscriable  channel
+ - Messages are delivered to all the registered subscribers on the message channel
+ - Notify the subscribers thats something happend and take action
+ 
+Publish the message into Kafka topic and Consume the message from kafka topic
+------------------------------------------------------------------------------
+
+Outbound Channel Adapter:
+
+	- The Outbound channel adapter is used to publish messages from a Spring Integration channel to Kafka topics. 
+	- The channel is defined in the application context and then wired into the application that sends messages to Kafka. 
+	- Sender applications can publish to Kafka via Spring Integration messages, which are internally converted to Kafka messages by the outbound channel adapter
+	
+Message Driven Channel Adapter
+	- This is used on the consuming (receiving) side of the application. 
+	- The incoming messages can be processed in the record or batch mode.
+	
+we use four channel classes from Spring Integration: 
+	MessageChannel
+	DirectChannel
+	PollableChannel
+	QueueChannel
+
+MessageChannel:
+	- MessageChannel is an interface that is implemented by all Spring Integration channels. 
+	- It declares the send method which the concrete classes define how a sender sends a message to the channel.
+	
+DirectChannel:
+		- The DirectChannel implements the SubscribableChannel (which extends MessageChannel) and has point-to-point semantics, that is, it will only send each Message to a single subscriber.
+
+PollableChannel
+	- PollableChannel is an interface that extends the MessageChannel and is used for receiving messages. 
+	- Classes implementing this interface provide functionality for polling messages from a channel.
+	
+QueueChannel
+	- QueueChannel implements implements multiple interfaces. 
+	- It wraps a queue, provides point-to-point semantics and has functionality to filter and purge messages that satisfy a certain criteria.
