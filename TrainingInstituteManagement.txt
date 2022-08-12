@@ -164,9 +164,11 @@ PRIMARY KEY(release_id));
 
 CREATE TABLE TICKET_TBL(
 ticket_id INTEGER NOT NULL AUTO_INCREMENT,
+application_id INTEGER (10),
+release_id INTEGER(10),
 description VARCHAR(30),
 status VARCHAR(15),
 title VARCHAR(50),
 PRIMARY KEY(ticket_id));
-CONSTRAINT fk_application_id FOREIGN KEY (application_id) REFERENCES APPLICATION(application_id),
-CONSTRAINT fk_release_id FOREIGN KEY (release_id) REFERENCES RELEASE(release_id),
+CONSTRAINT fk_application_id FOREIGN KEY (application_id) REFERENCES APPLICATION_TBL(application_id),
+CONSTRAINT fk_release_id FOREIGN KEY (release_id) REFERENCES RELEASE_TBL(release_id),
