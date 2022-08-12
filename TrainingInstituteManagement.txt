@@ -145,3 +145,28 @@ CONSTRAINT fk_student_id FOREIGN KEY (student_id) REFERENCES Student(student_id)
 CONSTRAINT fk_course_id FOREIGN KEY (course_id) REFERENCES Course(course_id),
 CONSTRAINT fk_trainer_id FOREIGN KEY (trainer_id) REFERENCES Trainer(trainer_id));
 
+BugTracking
+------------
+CREATE TABLE APPLICATION_TBL(
+application_id INTEGER NOT NULL AUTO_INCREMENT,
+description VARCHAR(30),
+application_name VARCHAR(15),
+owner VARCHAR(50),
+PRIMARY KEY(application_id));
+
+
+CREATE TABLE RELEASE_TBL(
+release_id INTEGER NOT NULL AUTO_INCREMENT,
+description VARCHAR(30),
+release_date DATE,
+PRIMARY KEY(release_id));
+
+
+CREATE TABLE TICKET_TBL(
+ticket_id INTEGER NOT NULL AUTO_INCREMENT,
+description VARCHAR(30),
+status VARCHAR(15),
+title VARCHAR(50),
+PRIMARY KEY(ticket_id));
+CONSTRAINT fk_application_id FOREIGN KEY (application_id) REFERENCES APPLICATION(application_id),
+CONSTRAINT fk_release_id FOREIGN KEY (release_id) REFERENCES RELEASE(release_id),
