@@ -446,28 +446,31 @@ To enable authentication and authorization support in spring boot rest apis, we 
 It helps in requiring the user to be authenticated prior to accessing any configured URL (or all urls) within our application.
 
 @Configuration
-public class SecurityConfig extends WebSecurityConfigurerAdapter
+public class SecurityConfig
 {
-    @Override
-    protected void configure(HttpSecurity http) throws Exception 
-    {
+    @Bean
+    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
-         .csrf().disable()
-         .authorizeRequests().anyRequest().authenticated()
-         .and()
-         .httpBasic();
+                .csrf().disable()
+                .authorizeRequests().anyRequest().authenticated()
+                .and()
+                .httpBasic();
+
+        return http.build();
     }
-  
-    @Autowired
-    public void configureGlobal(AuthenticationManagerBuilder auth) 
-            throws Exception 
-    {
-        auth.inMemoryAuthentication()
-            .withUser("admin")
-            .password("{noop}password")
-            .roles("USER");
+
+    @Bean
+    public InMemoryUserDetailsManager userDetailsService() {
+        UserDetails user = User
+                .withUsername("user")
+                .password("{noop}password")
+                .roles("USER")
+                .build();
+        return new InMemoryUserDetailsManager(user);
     }
 }
+
+
 
 Access rest api with 'authorization' header
 ----------------------------------------------
