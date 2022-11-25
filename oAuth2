@@ -10,3 +10,125 @@ Authorization Server – responsible for authenticating user’s identity and gi
 An access token is a string representing an authorization issued to the client.
 
 Refresh token is issued (along with access token) to the client by the authorization server and is used to obtain a new access token when the current access token becomes invalid or expires,
+
+
+
+
+Spring Security with JWT
+
+
+ - JSON Web Token (JWT) is widely used for securing REST APIs, in terms of securely transmitting information along with HTTP requests, which facilitates stateless and secure communication between REST clients and API backend.
+
+1. Understand JSON Web Token
+
+- JSON Web Token (JWT) is an open standard (RFC 7519) that defines a compact and self-contained way for securely transmitting information between parties as a JSON object.
+- A JWT is a string representing a set of claims as a JSON object. 
+- A claim is represented as a name/value pair consisting of a claim name and a claim value. A claim name is always a string, and a claim value can by any JSON value.
+- JWTs are compact so they can be used easily in space constrained environments such as HTTP Authorization headers and URI query parameters. More importantly, the information in JWTs can be verified and trusted because it is digitally signed using a secret key or a public/private RSA key pair.
+
+- The structure of a JWT consists 3 parts separated by dots: header, payload and signature.
+- The header describes the cryptographic operations applied to the JWT claims set - the type of algorithm used to sign the token. Here’s an example:
+{"typ":"JWT",
+ "alg":"HS256"}
+- The second part, payload contains claims which are a set of name/value pairs. Below is an example:
+{
+  "sub": "1234567890",
+  "name": “Rego
+  "iss": “emexo.net",
+}
+- Here, the claim names used are sub (subject), name (full name) and iss (issuer), which are of type registered claims - defined by IANA (Internet Assigned Numbers Authority). There are also public and private claims, but it’s recommended to use registered claims for interoperability.
+- The header and payload are base64url encoded before they are digitally signed to form the signature part. The algorithm specified in the header is used to sign the header and payload. For example, if the algorithm is HS256 (HMAC SHA256), then the signature will be created in the following way:
+HMAC_SHA256(
+    base64urlEncode(header) + "." +
+    base64urlEncode(payload),
+    secret
+)
+- The secret is any key you create (typically a random combination of characters). As the signature is calculated using the header and the payload, the server can verify that a JWT sent by a client hasn’t been tampered with. The signature is also base64url encoded. So the final form of a JWT has this format:
+
+              base64urlEncode(header) . base64urlEncode(payload) . signature
+
+- When a REST client invokes a protected API end point, it should put a JWT in the Authorization header of the request. If the server could verify the token, the request will be handled. Otherwise an HTTP status 401 (Unauthorized) is returned.
+
+2. Understand Spring Security Filters chain
+
+- It’s also important to understand how Spring Security works at a glance, in order to understand how to implement JWT Authentication with Spring. When a client sends a request to the server, the request will go through a sequence of filters before reaching the destination servlet which is actually responsible for processing the request. 
+- The Spring Web framework plugs in a special filter called FilterChainProxy that picks a chain of internal filters used by Spring Security, depending on the application’s security configuration. Each filter in the Spring Security filters chain is responsible for applying a specific security concern to the current request. If you enable debugging for a security configuration class like this:
+
+@EnableWebSecurity(debug = true)
+public class AppSecurityConfig  extends WebSecurityConfigurerAdapter { ... }
+
+
+- Then you will see, in the console, it reveals all the filters involved in the current request - for example:
+
+
+Security filter chain: [
+  WebAsyncManagerIntegrationFilter
+  SecurityContextPersistenceFilter
+  HeaderWriterFilter
+  RequestCacheAwareFilter
+  SecurityContextHolderAwareRequestFilter
+  AnonymousAuthenticationFilter
+  SessionManagementFilter
+  ExceptionTranslationFilter
+  FilterSecurityInterceptor
+]
+
+- This list may differ, depending on security configuration and path of the current request. Note that the order of filters matters as they are called in the sequence they are registered with the servlet container. The filters used by Spring Security are internal to the framework and the container is not aware of them.
+- 
+- Having said that, we need to insert our own custom filter (e.g. JWT Token Filter) in the middle of Spring Security filters chain. This filter will check availability and verify integrity of the access token. If the token is verified, the request is passed through the downstream filters and finally reaching the destination handler. Otherwise, an Unauthorized error should be raised.
+
+3. Required Dependencies
+
+<dependency>
+    <groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-starter-security</artifactId>
+</dependency>
+<dependency>
+    <groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-starter-web</artifactId>
+</dependency>
+<dependency>
+    <groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-starter-data-jpa</artifactId>
+</dependency>
+<dependency>
+    <groupId>mysql</groupId>
+    <artifactId>mysql-connector-java</artifactId>
+    <scope>runtime</scope>
+</dependency>
+ 
+<dependency>
+    <groupId>io.jsonwebtoken</groupId>
+    <artifactId>jjwt</artifactId>
+    <version>0.9.1</version>
+</dependency>
+ 
+<dependency>
+    <groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-starter-validation</artifactId>
+</dependency>
+<dependency>
+    <groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-starter-test</artifactId>
+</dependency>
+
+
+* spring-boot-starter-security: used to apply security to the application
+* spring-boot-starter-web: used to implement RESTful webservices, REST APIs
+* spring-boot-starter-data-jpa: used to query database with Spring Data JPA and Hibernate framework
+* mysql-connector-java: MySQL JDBC driver
+* jjwt: is the JWT library which we use to generate and verity JWT tokens
+* spring-boot-starter-validation: used to validate values of a JavaBean’s fields which are JSON values in the request.
+* spring-boot-starter-test: used for testing with JUnit and AssertJ
+
+
+4. Configure Data Source Properties
+
+
+spring.datasource.url=jdbc:mysql://localhost:3306/productsdb
+spring.datasource.username=root
+spring.datasource.password=password
+spring.jpa.hibernate.ddl-auto=update
+spring.jpa.properties.hibernate.format_sql=true
+spring.jpa.show-sql=true
+spring.jpa.properties.hibernate.dialect=org.hibernate.dialect.MySQL8Dialect
