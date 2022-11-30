@@ -1,0 +1,20 @@
+ZooKeeper Installation
+1. Go to your ZooKeeper config directory. C:\kafka\apache-zookeeper-3.7.1-bin\conf
+
+2. Rename file “zoo_sample.cfg” to “zoo.cfg”
+
+3. Open zoo.cfg in any text editor, like Notepad.
+
+4. Find and edit dataDir=/tmp/zookeeper to dataDir=C:/kafka/apache-zookeeper-3.7.1-bin/data
+
+5. Also, add admin.serverPort=9876
+
+6. Add an entry in the System Environment Variables as we did for Java.
+
+a. Add ZOOKEEPER_HOME = C:\kafka\apache-zookeeper-3.7.1-bin to the System Variables.
+
+b. Edit the System Variable named “Path” and add ;%ZOOKEEPER_HOME%\bin; 
+
+7. You can change the default Zookeeper port in zoo.cfg file (Default port 2181).
+
+8. Run ZooKeeper by opening a new cmd and going to C:\kafka\apache-zookeeper-3.7.1-bin\bin and type zkserver.
