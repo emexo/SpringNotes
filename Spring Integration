@@ -1,6 +1,7 @@
  It enables lightweight messaging within Spring-based applications and supports integration with external systems through declarative adapters. 
  
- Different Endpoints:
+
+Different Endpoints:
  --------------------
  1. Adapter - Connect the channel to some other(external) systems
  
