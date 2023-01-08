@@ -1,0 +1,49 @@
+Spring Boot Interview Questions
+————————————————-
+1. What are the features of spring boot?
+2. What is the default embedded web server?
+3. Can we modify the default embedded web server?
+4. How to use profiling in spring boot?
+5. How to change the default port?
+6. How to override the default configuration during run time?
+7. How to exclude the pojo class from bean creation?
+8. What are annotations in spring boot?
+9. What are the annotations are part of spring boot application annotation?
+10.  What’s the use of @EnableAutoConfiguration annotation?
+11. What’s the use of @ImportAutoConfigutaion?
+12. What’s the diff b/w @Controller and @RestController?
+13. What’s the diff b/w @PathVariable @RequestParam and @RequestBody annotation?
+14. What’s is use of @PatchMapping?
+15. How to connect DB from spring boot application?
+16. Can we create the tables automatically in spring data jpa?
+17. How to create a custom JPA query?
+18. What’s the diff b/w JPA and spring data JPA?
+19. What the are interfaces can extend in JPA repository?
+20. What’s the diff b/w curdrepository pagingandsortingrepository and jparepository?
+21. What is the use of entity mapping?
+22. What’s the use of @Id annotation?
+23. What’s composite key?
+24. What are the diff ways we can implement composite key?
+25. What are the diff generation types?
+26. What’s are the different types of mapping?
+27. How to achieve many to many mapping?
+28. What’s lazy loading and eager loading?
+29. How to handle the exception in spring boot?
+30. What are the annotations to handle the exception in spring boot?
+31. Whats the use of swagger?
+32. What’s starter dependency?
+33. What’s auto configuration?
+34. How to achieve asynchronous execution in spring boot?
+35. How to communicate one micro service to another micro service?
+36. What’s the diff b/w RestTemplate and WebClient?
+37. How to implement the caching in spring boot?
+38. What’s use of actuator?
+39. How to create custom health indicator?
+40. Whats the use of CLI?
+41. How to integrate spring security with spring boot?
+42. What’s oAuth?
+43. What’s JWT token?
+44. Can we combine 2 entities into a single JPA repository?
+45. What’s use of ResponseEntity?
+46. Which is the default logging in spring boot?
+47. How to write mock test cases in spring boot?
