@@ -1,0 +1,39 @@
+Spring Core InterviewQuestions
+————————————————
+
+1. What’s transaction management?
+2. What are the diff types of transaction management?
+3. What’s transaction propagation?
+4. What are the diff types of transaction propagation?
+5. What’s transaction isolation and diff types of transaction isolation?
+6. Diff b/w component , service and repository annotation?
+7. Diff b/w Resource, Inject and Autowired?
+8. What’s the use of @Qualifier annotation?
+9. What’s the use of @Primary annotation?
+10. How to avoid the ambiguity?
+11. Whats auto wiring and  types of auto wiring?
+12. How we can do the explicit wiring?
+13. What are the different types of scope of bean?
+14. What’s the default scope of bean?
+15. What are new scopes are added in spring 5.0?
+16. Explain the life cycle of bean?
+17. What’s the use of Configuration and Bean annotation?
+18. How to read the configuration from property file?
+19. What’s IOC Container?
+20. What are the different types of IOC container?
+21. What are the implementation for Application context container?
+22. What’s dependency Injection?
+23. Explain the types of Dependency Injection?
+24. Explain Spring Architecture?
+25. Why we should go for spring framework?
+26. Inner bean scope is prototype and outer bean scope is singleton , in that case what’s the behaviour of inner bean scope?
+27. How we can avoid circular dependency?
+28. What’s Spring AOP?
+29. What are the diff types advices?
+30. What’s joint point?
+31. What’s point cut?
+32. What’s advisor?
+33. What’s Target bean/object?
+34. Can we have more than one IOC container?
+35. What’s the use of @PostConstruct and @Predestroy?
+
