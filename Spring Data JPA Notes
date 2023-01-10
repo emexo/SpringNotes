@@ -1,0 +1,80 @@
+Spring Data JPA:
+—————————
+
+   - The DAO layer usually consists of a lot of boilerplate code that can and should be simplified
+
+- Spring Data takes this simplification one step further and makes it possible to remove the DAO implementations entirely. 
+
+- The interface of the DAO is now the only artifact that we need to explicitly define.
+
+- In order to start leveraging the Spring Data programming model with JPA, a DAO interface needs to extend the JPA specific Repository interface, JpaRepository.
+
+- Spring Data JPA doesn't depend on the old ORM templates (JpaTemplate, HibernateTemplate), and they have been removed since Spring 5
+
+- To activate the Spring JPA repository support, we can use the @EnableJpaRepositories annotation and specify the package that contains the DAO interfaces:
+
+	@EnableJpaRepositories(basePackages = “packagename”)
+
+* CrudRepository mainly provides CRUD functions.
+* PagingAndSortingRepository provides methods to do pagination and sorting records.
+* JpaRepository provides some JPA-related methods such as flushing the persistence context and deleting records in a batch.
+	
+
+
+Maven Dependency
+
+<dependency>
+   <groupId>org.springframework.data</groupId>
+   <artifactId>spring-data-jpa</artifactId>
+   <version>2.4.0</version>
+</dependency>
+
+
+Using Spring Boot
+
+<dependency>
+   <groupId>org.springframework.boot</groupId>
+   <artifactId>spring-boot-starter-data-jpa</artifactId>
+   <version>2.4.0</version>
+</dependency>
+
+<dependency>
+    <groupId>com.h2database</groupId>
+    <artifactId>h2</artifactId>
+    <version>1.4.200</version>
+</dependency>
+
+
+
+Spring Data JPA’s Pagination APIs
+———————————————————-
+Iterable<T> findAll(Sort sort);
+Page<T> findAll(Pageable pageable);
+
+- JpaRepository is a subtype of PagingAndSortingRepository so if your repository interface is of type JpaRepository, you don’t have to make change to it.
+
+int pageNumber = 1;
+int pageSize = 5;
+Pageable pageable = PageRequest.of(pageNumber, pageSize);
+ 
+Page<Product> page = repository.findAll(pageable);
+
+you can get the actual content as follows:
+
+List<Product> listProducts = page.getContent();
+
+
+With a Page object you can know the total rows in the database and the total pages according to the given page size:
+
+long totalItems = page.getTotalElements();
+int totalPages = page.getTotalPages();
+
+Service 
+———-
+public Page<Product> listAll(int pageNum) {
+    int pageSize = 5;
+     
+    Pageable pageable = PageRequest.of(pageNum - 1, pageSize);
+     
+    return repo.findAll(pageable);
+}
