@@ -1,4 +1,6 @@
 ZooKeeper Installation
+Download and extract ZooKeeper using 7-zip from http://zookeeper.apache.org/releases.html
+
 1. Go to your ZooKeeper config directory. C:\kafka\apache-zookeeper-3.7.1-bin\conf
 
 2. Rename file “zoo_sample.cfg” to “zoo.cfg”
