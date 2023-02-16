@@ -1,4 +1,6 @@
 Setting Up Kafka
+Download and extract Kafka using 7-zip from http://kafka.apache.org/downloads.html
+
 1. Go to your Kafka config directory. C:\kafka\kafka_2.13-3.3.1\config
 
 2. Edit the file “server.properties.”
