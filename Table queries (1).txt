@@ -5,6 +5,10 @@ Bank_Name VARCHAR(30),
 Bank_Address VARCHAR(15),
 PRIMARY KEY(Bank_Code));
 
+--Bank Sequence--
+CREATE SEQUENCE bank_code_sequence
+    INCREMENT BY 1;
+
 --Branch--
 Create TABLE Branch_TBL(
 Branch_ID INTEGER NOT NULL,
