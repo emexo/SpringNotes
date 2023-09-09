@@ -1,64 +1,6 @@
-1. Add Swagger2 Maven Dependencies
+implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.0.3'
 
-	<dependency>
-			<groupId>io.springfox</groupId>
-			<artifactId>springfox-swagger2</artifactId>
-			<version>2.9.2</version>
-		</dependency>
-
-		<dependency>
-			<groupId>io.springfox</groupId>
-			<artifactId>springfox-swagger-ui</artifactId>
-			<version>2.9.2</version>
-		</dependency>
-
-2. Open application.properties and add below property. This will start the application in /swagger2-demo context path.
-
-server.contextPath=/swagger2-demo
-
-
-3. Add Swagger2 Configuration
-
-import com.google.common.base.Predicate;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
-import springfox.documentation.builders.ApiInfoBuilder;
-import springfox.documentation.builders.RequestHandlerSelectors;
-import springfox.documentation.service.ApiInfo;
-import springfox.documentation.spi.DocumentationType;
-import springfox.documentation.spring.web.plugins.Docket;
-import springfox.documentation.swagger2.annotations.EnableSwagger2;
-
-@Configuration
-@EnableSwagger2
-public class SwaggerConfiguration {
-
-    @Bean
-    public Docket api(){
-        return new Docket(DocumentationType.SWAGGER_2)
-                .select()
-                .apis(RequestHandlerSelectors.any())
-                .paths(paths())
-                .build()
-                .apiInfo(apiInfo());
-    }
-
-    public Predicate<String> paths(){
-        return input -> !input.contains("/error");
-    }
-
-    public ApiInfo apiInfo(){
-        return new ApiInfoBuilder()
-                .title("Bug Tracking Application")
-                .description("Bug Tracking Application")
-                .version("1.0")
-                .build();
-    }
-
-}
-
-
-4. Modify the content
+Modify the content
 
 @Api(value = "Swagger2DemoRestController", description = "REST Apis related to Student Entity!!!!")
 @RestController
