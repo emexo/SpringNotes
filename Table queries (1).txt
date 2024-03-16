@@ -1,5 +1,5 @@
 --Bank--
-CREATE TABLE Bank_TBL(
+CREATE TABLE T_Bank(
 Bank_Code INTEGER NOT NULL,
 Bank_Name VARCHAR(30),
 Bank_Address VARCHAR(15),
@@ -10,13 +10,13 @@ CREATE SEQUENCE bank_code_sequence
     INCREMENT BY 1;
 
 --Branch--
-Create TABLE Branch_TBL(
+Create TABLE T_Branch(
 Branch_ID INTEGER NOT NULL,
 Branch_Name VARCHAR(20),
 Branch_Address VARCHAR(30),
 Bank_Code int,
 PRIMARY KEY(Branch_ID),
-CONSTRAINT fk_bank_code FOREIGN KEY(Bank_Code) REFERENCES Bank_TBL(Bank_Code));
+CONSTRAINT fk_bank_code FOREIGN KEY(Bank_Code) REFERENCES T_Bank(Bank_Code));
 
 --Branch Sequence--
 CREATE SEQUENCE branch_id_sequence
@@ -24,7 +24,7 @@ CREATE SEQUENCE branch_id_sequence
 
     
 --Customer--
-Create TABLE Customer_TBL(
+Create TABLE T_Customer(
 Cust_ID INTEGER NOT NULL,
 Cust_Name VARCHAR(20),
 Cust_Phone INTEGER,
@@ -37,30 +37,30 @@ CREATE SEQUENCE customer_id_sequence
 
     
 --Account--
-Create TABLE Account_TBL(
+Create TABLE T_Account(
 Account_Number INTEGER NOT NULL,
 Account_Type VARCHAR(20),
 Account_Balance INTEGER,
 Branch_ID int,
 Cust_ID int,
 PRIMARY KEY(Account_Number),
-CONSTRAINT fk_branch_id FOREIGN KEY(Branch_ID) REFERENCES Branch_TBL(Branch_ID),
-CONSTRAINT fk_cust_id FOREIGN KEY(Cust_ID) REFERENCES Customer_TBL(Cust_ID));
+CONSTRAINT fk_branch_id FOREIGN KEY(Branch_ID) REFERENCES T_Branch(Branch_ID),
+CONSTRAINT fk_cust_id FOREIGN KEY(Cust_ID) REFERENCES T_Customer(Cust_ID));
 
 --Account Sequence--
 CREATE SEQUENCE account_id_sequence
     INCREMENT BY 1;
 
 --LOAN--
-Create TABLE Loan_TBL(
+Create TABLE T_Loan(
 Loan_ID INTEGER NOT NULL,
 Loan_Type VARCHAR(20),
 Loan_Amount INTEGER,
 Branch_ID int,
 Cust_ID int,
 PRIMARY KEY(Loan_ID),
-CONSTRAINT fk_branch_id1 FOREIGN KEY(Branch_ID) REFERENCES Branch_TBL(Branch_ID),
-CONSTRAINT fk_cust_id1 FOREIGN KEY(Cust_ID) REFERENCES Customer_TBL(Cust_ID));
+CONSTRAINT fk_branch_id1 FOREIGN KEY(Branch_ID) REFERENCES T_Branch(Branch_ID),
+CONSTRAINT fk_cust_id1 FOREIGN KEY(Cust_ID) REFERENCES T_Customer(Cust_ID));
 
 
 --Loan Sequence--
