@@ -64,6 +64,9 @@ ApplicationContext context = new ClassPathXmlApplicationContext("setter_applicat
 
 Dependency Injection
 --------------------
+- Its a process where one object define their dependencies
+- Inversion of Control
+- Loosely coupled
 setter Based
  - container call the setter method  dynamically assign the values to the properties of the bean
  
