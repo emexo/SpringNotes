@@ -274,10 +274,7 @@ More Annotations of core module
 	- to specify the bean scope
 5. @ComponentScan("com.spring")
 	- to specify the packages to recognize spring beans
-6.  @Required 
-	- applies to bean property setter methods
-	- This annotation simply indicates that the affected bean property must be populated at configuration time
-7. @Qualifier	
+6. @Qualifier	
 	
 Java Based Configuration
 --------------------------
