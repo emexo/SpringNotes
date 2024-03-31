@@ -101,7 +101,7 @@ The last four scopes mentioned, request, session, application and websocket, 
 
 1. Singleton Scope
 
-	Single bean object instance per spring IoC container
+	Single bean object instance per Spring IoC container. Singleton is a default sco[e
 
 	<bean id="personSingleton" class="org.spring.scopes.Person" scope="singleton"/> 
 
