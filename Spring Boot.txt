@@ -1,5 +1,5 @@
 Whats Spring Boot?
-------------------
+--------------------
 Spring Boot enables developers to focus on the application logic rather than being bogged down by the intricacies of configuration.
 
 Spring has always prioritised convention over configuration as a model for simpler programming and Spring Boot Project emphasizes a similar discipline.
@@ -11,7 +11,7 @@ Specifically, there are four main features that come with Spring Boot Project:
 	4. The Actuator
 	
 Why Spring Boot?
-----------------
+------------------
 The problem in Spring framework is that there are too many on the verge of making an application development dense with numerous configuration codes.
  
 If we consider EJB a mess of heavyweight components, the Spring framework is definitely a mess of configuration. 
